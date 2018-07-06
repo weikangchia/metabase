@@ -144,7 +144,7 @@
 ;;; ---------------------------------------- General Tree Manipulation Helpers ---------------------------------------
 
 (defn postwalk-pred
-  "Transform `form` by applying `f` to each node where `pred` returns true"
+  "Transform `form` by applying `f` to a node in the tree when that `pred` returns true for that node"
   [pred f form]
   (walk/postwalk (fn [node]
                    (if (pred node)
