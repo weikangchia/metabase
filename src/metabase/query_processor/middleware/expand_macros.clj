@@ -105,9 +105,12 @@
     (maybe-unnest-ag-clause ag-clause)))
 
 (defn- expand-metrics-in-ag-clause [query-dict filter-clauses-atom]
-  (qputil/postwalk-pred metric?
-                        #(expand-metric % filter-clauses-atom)
-                        query-dict))
+  (walk/postwalk
+   (fn [form]
+     (if-not (metric? form)
+       form
+       (expand-metric form filter-clauses-atom)))
+   query-dict))
 
 (defn merge-filter-clauses
   "Merge filter clauses."
