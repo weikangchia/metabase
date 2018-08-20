@@ -25,7 +25,7 @@ export function channelIsValid(channel, channelSpec) {
       return false;
   }
   if (channelSpec.recipients) {
-    if (!channel.recipients || channel.recipients.length === 0) {
+    if (!channel.recipients) {
       return false;
     }
   }
@@ -82,6 +82,17 @@ export function getDefaultChannel(channelSpecs) {
       return channelSpec;
     }
   }
+}
+
+export function canSendTestEmail(pulse) {
+  const emailChannel = pulse.channels.filter(
+    c => c.channel_type === "email",
+  )[0];
+  const emailSetup = emailIsEnabled(pulse);
+  const validPulse = pulseIsValid(pulse);
+  const hasRecipients = emailChannel.recipients.length > 0;
+  console.log(emailSetup, validPulse, hasRecipients);
+  return emailSetup && validPulse && hasRecipients;
 }
 
 export function createChannel(channelSpec) {

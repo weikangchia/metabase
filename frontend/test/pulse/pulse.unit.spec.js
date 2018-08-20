@@ -4,6 +4,8 @@ import { shallow } from "enzyme";
 import RecipientPicker from "metabase/pulse/components/RecipientPicker";
 import TokenField from "metabase/components/TokenField";
 
+import { canSendTestEmail } from "metabase/lib/pulse";
+
 // We have to do some mocking here to avoid calls to GA and to Metabase settings
 jest.mock("metabase/lib/settings", () => ({
   get: () => "v",
@@ -57,6 +59,27 @@ describe("recipient picker", () => {
           .dive()
           .state().isFocused,
       ).toBe(false);
+    });
+  });
+});
+
+const EMAIL_PULSE = {};
+
+describe("pulse utils", () => {
+  describe("canSendTestEmail", () => {
+    it("should return true if the pulse is valid, email is set up and there are recipients", () => {
+      const pulse = {
+        name: "Test",
+        cards: [{ name: "Test card" }],
+        channels: [
+          {
+            enabled: true,
+            channel_type: "email",
+            recipients: [{ name: "Kyle", email: "kyle@metabase.com" }],
+          },
+        ],
+      };
+      expect(canSendTestEmail(pulse)).toBe(true);
     });
   });
 });
