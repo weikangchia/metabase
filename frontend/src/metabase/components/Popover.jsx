@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
-import { CSSTransitionGroup } from "react-transition-group";
 
 import OnClickOutsideWrapper from "./OnClickOutsideWrapper";
 import Tether from "tether";
@@ -12,13 +11,12 @@ import cx from "classnames";
 
 import "./Popover.css";
 
-const POPOVER_TRANSITION_ENTER = 100;
-const POPOVER_TRANSITION_LEAVE = 100;
-
 // space we should leave berween page edge and popover edge
 const PAGE_PADDING = 10;
 // Popover padding and border
 const POPOVER_BODY_PADDING = 2;
+
+const POPOVER_TRANSITION_LEAVE = 100;
 
 export default class Popover extends Component {
   constructor(props, context) {
@@ -278,17 +276,7 @@ export default class Popover extends Component {
     const popoverElement = this._getPopoverElement();
     ReactDOM.unstable_renderSubtreeIntoContainer(
       this,
-      <CSSTransitionGroup
-        transitionName="Popover"
-        transitionAppear
-        transitionEnter
-        transitionLeave
-        transitionAppearTimeout={POPOVER_TRANSITION_ENTER}
-        transitionEnterTimeout={POPOVER_TRANSITION_ENTER}
-        transitionLeaveTimeout={POPOVER_TRANSITION_LEAVE}
-      >
-        {isOpen ? this._popoverComponent() : null}
-      </CSSTransitionGroup>,
+      <span>{isOpen ? this._popoverComponent() : null}</span>,
       popoverElement,
     );
 
