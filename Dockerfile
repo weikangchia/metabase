@@ -2,7 +2,7 @@
 # STAGE 1: builder
 ###################
 
-FROM java:openjdk-8-jdk-alpine as builder
+FROM java:openjdk-8u111-jdk-alpine as builder
 
 WORKDIR /app/source
 
@@ -55,7 +55,7 @@ RUN keytool -noprompt -import -trustcacerts -alias aws-rds \
 # # STAGE 2: runner
 # ###################
 
-FROM java:openjdk-8-jre-alpine as runner
+FROM java:openjdk-8u111-jre-alpine as runner
 
 WORKDIR /app
 
